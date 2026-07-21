@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phishing Awareness &amp; Cybersecurity Training</title>
+    <meta name="description" content="Master the skills to recognize phishing emails, lookalike websites, and social engineering tricks in this interactive online module.">
+    
+    <!-- SECURITY FIX [F3]: Content Security Policy -->
+    <meta http-equiv="Content-Security-Policy" 
+          content="default-src 'self'; 
+                 script-src 'self'; 
+                 style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; 
+                 font-src 'self' https://fonts.gstatic.com; 
+                 img-src 'self' data:; 
+                 connect-src 'none'; 
+                 frame-src 'none'; 
+                 object-src 'none';">
+    
+    <!-- SECURITY FIX [F3]: Additional security headers via meta tags -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- SECURITY NOTE [F6]: In production, self-host fonts to eliminate third-party dependency -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M12 8v4M12 16h.01" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>CyberShield</span>
+                </div>
+                <div class="subtitle">Awareness Portal</div>
+            </div>
+
+            <nav class="nav-menu">
+                <button class="nav-item active" data-tab="dashboard" id="btn-tab-dashboard">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7" rx="1"/>
+                        <rect x="14" y="3" width="7" height="7" rx="1"/>
+                        <rect x="14" y="14" width="7" height="7" rx="1"/>
+                        <rect x="3" y="14" width="7" height="7" rx="1"/>
+                    </svg>
+                    <span>Dashboard</span>
+                </button>
+                <button class="nav-item" data-tab="module-basics" id="btn-tab-basics">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                    </svg>
+                    <span>1. Phishing &amp; Tactics</span>
+                </button>
+                <button class="nav-item" data-tab="module-email" id="btn-tab-email">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                        <polyline points="22,6 12,13 2,6"/>
+                    </svg>
+                    <span>2. Email Inspector</span>
+                </button>
+                <button class="nav-item" data-tab="module-websites" id="btn-tab-websites">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="2" y1="12" x2="22" y2="12"/>
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                    </svg>
+                    <span>3. Website Spotter</span>
+                </button>
+                <button class="nav-item" data-tab="module-quiz" id="btn-tab-quiz">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 11l3 3L22 4"/>
+                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                    </svg>
+                    <span>4. Scenario Quiz</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="progress-container">
+                    <div class="progress-header">
+                        <span>Overall Progress</span>
+                        <span id="progress-text">0%</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" id="progress-fill" style="width: 0%;"></div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="top-header">
+                <h1 id="page-title">Training Dashboard</h1>
+                <div class="user-profile">
+                    <span class="user-badge">Trainee Mode</span>
+                </div>
+            </header>
+
+            <!-- Dashboard Panel -->
+            <section id="dashboard" class="tab-panel active">
+                <div class="dashboard-hero">
+                    <div class="hero-text">
+                        <h2>Master Phishing &amp; Social Engineering Defense</h2>
+                        <p>Cyber attackers don't just hack systems; they hack people. Learn the interactive techniques to spot fraudulent emails, identify deceptive websites, and protect yourself against cyber scams.</p>
+                        <button class="btn btn-primary start-training-btn" id="start-training-hero">Start Training Module</button>
+                    </div>
+                    <div class="hero-graphic">
+                        <svg viewBox="0 0 200 200" class="floating-svg">
+                            <!-- Shield and hook dynamic graphics -->
+                            <defs>
+                                <linearGradient id="cyberGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#00f2fe" />
+                                    <stop offset="100%" stop-color="#4facfe" />
+                                </linearGradient>
+                            </defs>
+                            <circle cx="100" cy="100" r="80" fill="none" stroke="url(#cyberGrad)" stroke-width="2" stroke-dasharray="10 5" />
+                            <path d="M100 45 L150 65 V110 C150 145 125 168 100 175 C75 168 50 145 50 110 V65 Z" fill="#161b22" stroke="url(#cyberGrad)" stroke-width="4" />
+                            <path d="M100 65 L135 80 V110 C135 135 118 152 100 158 C82 152 65 135 65 110 V80 Z" fill="rgba(0, 242, 254, 0.1)" />
+                            <!-- Fishing hook -->
+                            <path d="M100 80 Q105 115 90 120 T75 105" fill="none" stroke="#ff4757" stroke-width="3" stroke-linecap="round" />
+                            <line x1="100" y1="55" x2="100" y2="80" stroke="#ff4757" stroke-width="2" />
+                            <circle cx="75" cy="105" r="3" fill="#ff4757" />
+                        </svg>
+                    </div>
+                </div>
+
+                <h3 class="section-title">Your Learning Path</h3>
+                <div class="modules-grid">
+                    <!-- Card 1 -->
+                    <div class="module-card" data-target="module-basics">
+                        <div class="module-status locked" id="status-basics">Locked</div>
+                        <div class="module-icon-wrap">
+                            <svg class="m-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                            </svg>
+                        </div>
+                        <h4>1. Phishing &amp; Tactics</h4>
+                        <p>Learn about social engineering attacks, spear phishing, smishing, and psychological lures.</p>
+                        <button class="btn btn-secondary">Explore Basics</button>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="module-card" data-target="module-email">
+                        <div class="module-status locked" id="status-email">Locked</div>
+                        <div class="module-icon-wrap">
+                            <svg class="m-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                            </svg>
+                        </div>
+                        <h4>2. Interactive Email Inspector</h4>
+                        <p>Analyze incoming emails in a live simulator to spot fraudulent links, spoofed addresses, and bad domains.</p>
+                        <button class="btn btn-secondary">Inspect Emails</button>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="module-card" data-target="module-websites">
+                        <div class="module-status locked" id="status-websites">Locked</div>
+                        <div class="module-icon-wrap">
+                            <svg class="m-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                                <line x1="2" y1="20" x2="22" y2="20"/>
+                                <line x1="12" y1="17" x2="12" y2="20"/>
+                            </svg>
+                        </div>
+                        <h4>3. Website Spotter</h4>
+                        <p>Differentiate between authentic portals and replica landing pages using URL validation techniques.</p>
+                        <button class="btn btn-secondary">Check Websites</button>
+                    </div>
+                    <!-- Card 4 -->
+                    <div class="module-card" data-target="module-quiz">
+                        <div class="module-status locked" id="status-quiz">Locked</div>
+                        <div class="module-icon-wrap">
+                            <svg class="m-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                                <line x1="12" y1="17" x2="12.01" y2="17"/>
+                            </svg>
+                        </div>
+                        <h4>4. Scenario Quiz</h4>
+                        <p>Complete the cyber assessment to test your recognition skills and unlock your certificate.</p>
+                        <button class="btn btn-secondary">Take Quiz</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Module 1: Phishing Basics -->
+            <section id="module-basics" class="tab-panel">
+                <div class="content-layout">
+                    <div class="info-pane">
+                        <h2>Understanding Social Engineering &amp; Phishing</h2>
+                        <p class="intro-text">Phishing is a form of social engineering where attackers impersonate trustworthy entities to deceive victims into revealing sensitive information, clicking malicious links, or downloading viruses.</p>
+                        
+                        <div class="accordion">
+                            <div class="accordion-item active">
+                                <div class="accordion-title">
+                                    <span>Core Phishing Vectors</span>
+                                    <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                                </div>
+                                <div class="accordion-content">
+                                    <ul class="vector-list">
+                                        <li><strong>Email Phishing:</strong> Bulk emails mimicking corporations (like Netflix, banks, or DHL) containing bad URLs or attachments.</li>
+                                        <li><strong>Spear Phishing:</strong> Highly personalized phishing targets aiming at specific individuals using custom details.</li>
+                                        <li><strong>Whaling:</strong> Spear phishing directed specifically at high-profile executives (CEOs, CFOs) to steal major company funds or assets.</li>
+                                        <li><strong>Smishing (SMS Phishing):</strong> Attacks conducted via text messages, often containing fake package deliveries or bank alert links.</li>
+                                        <li><strong>Vishing (Voice Phishing):</strong> Fraudulent phone calls (often spoofing real numbers) using voice deception or AI-voice synthesis to gather details.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <div class="accordion-title">
+                                    <span>Social Engineering Psychological Triggers</span>
+                                    <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                                </div>
+                                <div class="accordion-content">
+                                    <p>Attackers exploit human psychology instead of system code. They rely on key triggers:</p>
+                                    <div class="triggers-grid">
+                                        <div class="trigger-badge" data-trigger="urgency"><strong>Urgency:</strong> "Act within 24 hours or lose access." Prevents critical analysis.</div>
+                                        <div class="trigger-badge" data-trigger="fear"><strong>Fear/Intimidation:</strong> "Legal action will be taken against you." Triggers panic.</div>
+                                        <div class="trigger-badge" data-trigger="authority"><strong>Authority:</strong> "Request from the CEO / IT Department." Inhibits questioning requests.</div>
+                                        <div class="trigger-badge" data-trigger="greed"><strong>Greed/Reward:</strong> "You won a $500 Amazon Gift card! Click here." Exploits optimism.</div>
+                                        <div class="trigger-badge" data-trigger="curiosity"><strong>Curiosity:</strong> "Check out these leaked photos!" Hooks natural inquisitiveness.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="action-bar">
+                            <button class="btn btn-primary" id="btn-next-to-email">Proceed to Email Inspector &rarr;</button>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Side Card: Psychological Triggers Flip Cards -->
+                    <div class="interactive-pane">
+                        <div class="card-flip-container">
+                            <h3>Click cards to reveal the social engineering trap:</h3>
+                            <div class="flip-grid">
+                                <div class="flip-card" id="card-urgency">
+                                    <div class="flip-card-inner">
+                                        <div class="flip-card-front bg-urgency">
+                                            <span>Urgency</span>
+                                        </div>
+                                        <div class="flip-card-back">
+                                            <h5>Urgency Trap</h5>
+                                            <p>"Urgent Alert: Mismatched routing on invoice #43098. Authorize settlement now to avoid late penalty fees."</p>
+                                            <small>Goal: Forces you to act before you look at details.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flip-card" id="card-authority">
+                                    <div class="flip-card-inner">
+                                        <div class="flip-card-front bg-authority">
+                                            <span>Authority</span>
+                                        </div>
+                                        <div class="flip-card-back">
+                                            <h5>Authority Trap</h5>
+                                            <p>"Hi, this is Mark from corporate IT security. The CEO needs you to log in to our backup server to sync files."</p>
+                                            <small>Goal: Discourages verification due to hierarchy pressure.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flip-card" id="card-greed">
+                                    <div class="flip-card-inner">
+                                        <div class="flip-card-front bg-greed">
+                                            <span>Greed</span>
+                                        </div>
+                                        <div class="flip-card-back">
+                                            <h5>Greed Trap</h5>
+                                            <p>"Congratulations! You are the selected winner for our employee monthly lottery prize. Click below to claim."</p>
+                                            <small>Goal: Entices targets to sacrifice safety for reward.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flip-card" id="card-fear">
+                                    <div class="flip-card-inner">
+                                        <div class="flip-card-front bg-fear">
+                                            <span>Fear</span>
+                                        </div>
+                                        <div class="flip-card-back">
+                                            <h5>Fear Trap</h5>
+                                            <p>"IRS Warning: Auditing process shows discrepancy in your taxes. An immediate warrant will issue if unpaid."</p>
+                                            <small>Goal: Paralyzes normal logic through legal or monetary panic.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Module 2: Email Inspector -->
+            <section id="module-email" class="tab-panel">
+                <div class="email-inspector-layout">
+                    <!-- Left: Interactive Email Simulator -->
+                    <div class="email-simulator">
+                        <div class="browser-address-header">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                            <div class="email-client-title">SecureMail v4.2</div>
+                        </div>
+                        <div class="email-content-box">
+                            <div class="email-meta-info">
+                                <div class="meta-row">
+                                    <span class="meta-label">From:</span>
+                                    <span class="meta-val hotspot" id="hs-sender" data-ref="sender-flag">
+                                        PayPal Security &lt;support@paypa1-security-verification.com&gt;
+                                        <span class="inspect-icon">🔍</span>
+                                    </span>
+                                </div>
+                                <div class="meta-row">
+                                    <span class="meta-label">To:</span>
+                                    <span class="meta-val">security-student@training.org</span>
+                                </div>
+                                <div class="meta-row">
+                                    <span class="meta-label">Subject:</span>
+                                    <span class="meta-val hotspot font-bold" id="hs-subject" data-ref="subject-flag">
+                                        ⚠️ URGENT: Access Limited - Verification Required Immediately!
+                                        <span class="inspect-icon">🔍</span>
+                                    </span>
+                                </div>
+                                <div class="meta-row">
+                                    <span class="meta-label">Date:</span>
+                                    <span class="meta-val" id="email-date">Today, 2:15 PM</span>
+                                </div>
+                            </div>
+
+                            <div class="email-body">
+                                <p class="hotspot" id="hs-greeting" data-ref="greeting-flag">
+                                    Dear Valued Customer,
+                                    <span class="inspect-icon">🔍</span>
+                                </p>
+                                <p>We detected multiple unauthorized login attempts to your digital wallet account originating from a foreign IP address (82.102.23.14).</p>
+                                <p>To secure your account balance and lift the temporary account suspension, you are strictly required to log in and confirm your customer credentials using the link below:</p>
+                                
+                                <div class="email-button-container">
+                                    <!-- SECURITY FIX [F4]: Removed inline onclick handler, using addEventListener in JS -->
+                                    <a href="#" class="email-btn-link hotspot" id="hs-link" data-ref="link-flag">
+                                        Confirm Identity &amp; Security Profile
+                                        <span class="inspect-icon">🔍</span>
+                                    </a>
+                                </div>
+                                
+                                <p class="url-hint">Hovering URL target: <code id="simulated-link-hover">http://verification-paypal-update.net/identity/login.php</code></p>
+                                
+                                <p>Failure to complete this confirmation process within 12 hours will lead to permanent termination of your account assets.</p>
+                                <p>Thank you for helping us safeguard your digital experience.</p>
+                                <p>Sincerely,<br>PayPal Security Administration</p>
+
+                                <div class="email-attachments">
+                                    <div class="attachment-title">Attachments (1)</div>
+                                    <div class="attachment-card hotspot" id="hs-attachment" data-ref="attachment-flag">
+                                        <svg class="file-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                            <polyline points="14,2 14,8 20,8"/>
+                                        </svg>
+                                        <div class="attachment-info">
+                                            <span class="file-name">Account_Settlement_Detail.pdf.exe</span>
+                                            <span class="file-size">148 KB</span>
+                                        </div>
+                                        <span class="inspect-icon">🔍</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Inspector Findings Board -->
+                    <div class="inspector-findings">
+                        <h3>Email Inspector Report</h3>
+                        <p class="description">Click on the suspicious email components highlighted with 🔍 in the email preview to inspect for phishing red flags.</p>
+                        
+                        <div class="clue-counter">
+                            Red Flags Uncovered: <span id="clues-found">0</span> / 5
+                        </div>
+
+                        <div class="findings-list" id="findings-container">
+                            <div class="finding-card locked" id="flag-sender">
+                                <div class="finding-header">
+                                    <span class="badge">Sender Address</span>
+                                    <span class="status-marker">Locked</span>
+                                </div>
+                                <p class="finding-details">Inspect the sender's email domain address to reveal the analysis.</p>
+                            </div>
+
+                            <div class="finding-card locked" id="flag-subject">
+                                <div class="finding-header">
+                                    <span class="badge">Subject Line</span>
+                                    <span class="status-marker">Locked</span>
+                                </div>
+                                <p class="finding-details">Inspect the urgency syntax inside the subject line to reveal findings.</p>
+                            </div>
+
+                            <div class="finding-card locked" id="flag-greeting">
+                                <div class="finding-header">
+                                    <span class="badge">Salutation / Greeting</span>
+                                    <span class="status-marker">Locked</span>
+                                </div>
+                                <p class="finding-details">Inspect the email opening and recipient customization details.</p>
+                            </div>
+
+                            <div class="finding-card locked" id="flag-link">
+                                <div class="finding-header">
+                                    <span class="badge">Hyperlink Destination</span>
+                                    <span class="status-marker">Locked</span>
+                                </div>
+                                <p class="finding-details">Examine the button link's domain destination by hovering or clicking.</p>
+                            </div>
+
+                            <div class="finding-card locked" id="flag-attachment">
+                                <div class="finding-header">
+                                    <span class="badge">Email Attachment</span>
+                                    <span class="status-marker">Locked</span>
+                                </div>
+                                <p class="finding-details">Analyze the file extension and structure of the attached invoice.</p>
+                            </div>
+                        </div>
+
+                        <!-- Verdict Controls -->
+                        <div class="verdict-controls disabled" id="verdict-controls-box">
+                            <h4>Make Your Final Verdict:</h4>
+                            <p class="warning-text">You must inspect all 5 hotspots before rendering a final judgment on this email.</p>
+                            <div class="verdict-buttons">
+                                <button class="btn btn-success" id="verdict-safe" disabled>This Email is Safe</button>
+                                <button class="btn btn-danger" id="verdict-phish" disabled>This is a Phishing Email</button>
+                            </div>
+                        </div>
+
+                        <div class="feedback-toast hidden" id="verdict-feedback">
+                            <!-- JS Inject Success/Error Messages -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Module 3: Website Spotter -->
+            <section id="module-websites" class="tab-panel">
+                <div class="website-spotter-layout">
+                    <div class="control-box">
+                        <h2>Spotting Deceptive &amp; Spoofed Websites</h2>
+                        <p>Cybercriminals design landing pages that look identical to authentic websites (like Microsoft, Google, or Chase Bank). However, they cannot forge official domain names and security certifications.</p>
+                        
+                        <div class="instructions-panel">
+                            <h4>How to check:</h4>
+                            <ol>
+                                <li><strong>Check the Domain:</strong> Make sure the exact domain matches. Look for lookalikes (typosquatting) like <code>paypal-update.com</code> instead of <code>paypal.com</code>, or character substitutions like <code>arnazon.com</code> (r+n mimics m).</li>
+                                <li><strong>Check SSL/HTTPS:</strong> Secure sites use <code>https://</code> with a padlock. Phishing sites may use standard <code>http://</code> or procure free SSL certs for fake domains.</li>
+                                <li><strong>Check Subdomain Structure:</strong> In a URL, the true domain sits immediately before the first single slash (excluding path folders). For example: <code>netflix.security-login.com</code> is hosted on <code>security-login.com</code>, NOT Netflix.</li>
+                            </ol>
+                        </div>
+
+                        <!-- Web Simulator Toggle controls -->
+                        <div class="toggle-container">
+                            <span class="toggle-label">Inspect Simulated Screens:</span>
+                            <div class="site-toggle-buttons">
+                                <button class="btn btn-toggle active" id="btn-site-a">Website Version A</button>
+                                <button class="btn btn-toggle" id="btn-site-b">Website Version B</button>
+                            </div>
+                        </div>
+
+                        <!-- Web Simulator Verdict -->
+                        <div class="site-verdict-card">
+                            <h4>Which version is the FAKE phishing website?</h4>
+                            <div class="verdict-buttons">
+                                <button class="btn btn-outline" id="verdict-site-a">Version A is Fake</button>
+                                <button class="btn btn-outline" id="verdict-site-b">Version B is Fake</button>
+                            </div>
+                            <div class="site-feedback-message hidden" id="site-feedback"></div>
+                        </div>
+                    </div>
+
+                    <!-- Web Browser Mockup Frame -->
+                    <div class="browser-mockup">
+                        <div class="browser-bar">
+                            <div class="browser-controls">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                            </div>
+                            <div class="browser-address-bar">
+                                <svg class="padlock-icon" id="address-padlock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                                </svg>
+                                <span class="protocol" id="address-protocol">https://</span>
+                                <span class="domain" id="address-domain">www.netflix.com</span>
+                                <span class="path" id="address-path">/login</span>
+                            </div>
+                            <div class="cert-info-wrap">
+                                <button class="btn-cert-info" id="btn-cert-detail">Certificate Info</button>
+                            </div>
+                        </div>
+
+                        <!-- Mockup Frame Content -->
+                        <div class="browser-content-viewport" id="site-viewport">
+                            <!-- Mockup Login Interface (Netflix Style) -->
+                            <div class="mock-login-form">
+                                <div class="mock-logo">NETFLIX</div>
+                                <div class="mock-card">
+                                    <h3>Sign In</h3>
+                                    <div class="mock-input-group">
+                                        <input type="text" placeholder="Email or mobile number" disabled>
+                                    </div>
+                                    <div class="mock-input-group">
+                                        <input type="password" placeholder="Password" disabled>
+                                    </div>
+                                    <button class="mock-btn-submit" disabled>Sign In</button>
+                                    <div class="mock-form-footer">
+                                        <div class="mock-remember">
+                                            <input type="checkbox" id="rem" disabled>
+                                            <label for="rem">Remember me</label>
+                                        </div>
+                                        <a href="#">Need help?</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Module 4: Scenario Quiz -->
+            <section id="module-quiz" class="tab-panel">
+                <div class="quiz-container-box">
+                    <div class="quiz-intro-screen" id="quiz-intro">
+                        <h2>Scenario-Based Cybersecurity Assessment</h2>
+                        <p>Test your Phishing IQ and social engineering defense awareness. You will face 5 real-world corporate and personal security scenarios. Pass with 80% (4/5 correct) to qualify for your Certificate of Completion.</p>
+                        <button class="btn btn-primary btn-large" id="start-quiz-btn">Start Security Assessment</button>
+                    </div>
+
+                    <!-- Active Quiz Panel -->
+                    <div class="quiz-active-screen hidden" id="quiz-active">
+                        <div class="quiz-progress-header">
+                            <span class="question-tracker">Scenario <span id="current-q-num">1</span> of 5</span>
+                            <div class="q-progress-bar-bg">
+                                <div class="q-progress-bar-fill" id="q-progress-fill" style="width: 20%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="quiz-question-card">
+                            <div class="scenario-icon-wrap" id="question-icon">
+                                💬
+                            </div>
+                            <h3 id="question-title">Loading Scenario...</h3>
+                            <p class="question-context" id="question-context">Loading details...</p>
+                            
+                            <div class="quiz-options-list" id="quiz-options-container">
+                                <!-- Choices injected dynamically -->
+                            </div>
+                        </div>
+
+                        <div class="quiz-explanation-box hidden" id="quiz-explanation">
+                            <h4 id="explanation-header">Result</h4>
+                            <p id="explanation-text">Explanation details...</p>
+                            <button class="btn btn-primary" id="btn-next-question">Next Scenario &rarr;</button>
+                        </div>
+                    </div>
+
+                    <!-- Quiz Score Screen -->
+                    <div class="quiz-result-screen hidden" id="quiz-result">
+                        <div class="result-badge-container" id="result-badge-wrap">
+                            <!-- Visual Ring indicating score -->
+                        </div>
+                        <h2 id="result-headline">Verification Finished</h2>
+                        <p class="result-summary" id="result-summary-text">Loading score card...</p>
+
+                        <div class="quiz-success-actions hidden" id="quiz-pass-actions">
+                            <div class="certificate-name-input-box">
+                                <label for="cert-user-name">Enter your full name for the certificate:</label>
+                                <!-- SECURITY FIX [F7]: Added maxlength, pattern, required, autocomplete, title for input validation -->
+                                <input type="text" id="cert-user-name" placeholder="John Doe" class="cert-input"
+                                       maxlength="100"
+                                       pattern="[A-Za-z\s\-\.\']+"
+                                       required
+                                       autocomplete="name"
+                                       title="Please enter a valid name (letters, spaces, hyphens, periods only)">
+                                <button class="btn btn-success" id="btn-generate-cert">Generate Certificate</button>
+                            </div>
+                        </div>
+
+                        <div class="quiz-fail-actions hidden" id="quiz-fail-actions">
+                            <p>Don't worry! Cyber defense is a process. Review the training materials and attempt the security challenge again to pass.</p>
+                            <button class="btn btn-primary" id="btn-retry-quiz">Retry Quiz</button>
+                            <button class="btn btn-secondary" id="btn-review-modules">Review Modules</button>
+                        </div>
+                    </div>
+
+                    <!-- Certificate Display Window -->
+                    <div class="certificate-view-screen hidden" id="certificate-screen">
+                        <h3>Your Cybersecurity Training Certificate</h3>
+                        <p>Congratulations on demonstrating outstanding phishing awareness and secure practice skills.</p>
+                        
+                        <div class="certificate-wrapper" id="cert-canvas-container">
+                            <!-- Dynamically generated SVG certificate -->
+                        </div>
+
+                        <div class="certificate-controls">
+                            <button class="btn btn-primary" id="btn-print-cert">
+                                <svg class="ctrl-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="6 9 6 2 18 2 18 9"/>
+                                    <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+                                    <rect x="6" y="14" width="12" height="8"/>
+                                </svg>
+                                Print / Save PDF
+                            </button>
+                            <button class="btn btn-secondary" id="btn-restart-portal">Return to Dashboard</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Main JavaScript Logic -->
+    <script src="app.js"></script>
+</body>
+</html>
